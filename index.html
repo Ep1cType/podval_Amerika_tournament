@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Бильярдный турнир Корона</title>
+<title>Бильярдный турнир: Корона</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -183,7 +183,7 @@ tbody td.center { text-align: center; }
   <div class="logo">
     <div class="logo-icon">🎱</div>
     <div class="logo-text">
-      <h1>Бильярдный турнир Корона</h1>
+      <h1>Бильярдный турнир: Корона</h1>
       <p>Круговая система · 13 туров · 14 игроков</p>
     </div>
   </div>
@@ -198,9 +198,9 @@ tbody td.center { text-align: center; }
     </div>
     <button class="btn" id="adminBtn" onclick="openAuthModal()">Войти</button>
     <button class="btn" onclick="exportExcel()">⬇ Excel</button>
-    <label class="btn" style="cursor:pointer">⬆ Импорт
-      <input type="file" class="import-input" id="importFile" accept=".xlsx,.xls" onchange="importExcel(event)">
-    </label>
+<!--    <label class="btn" style="cursor:pointer">⬆ Импорт-->
+<!--      <input type="file" class="import-input" id="importFile" accept=".xlsx,.xls" onchange="importExcel(event)">-->
+<!--    </label>-->
   </div>
 </header>
 
@@ -251,10 +251,10 @@ tbody td.center { text-align: center; }
 //  КОНФИГ — заменить перед деплоем
 // ═══════════════════════════════════════════════
 const CONFIG = {
-  GITHUB_OWNER: 'ВАШ_ЛОГИН',       // ← логин на GitHub
-  GITHUB_REPO:  'ВАШ_РЕПОЗИТОРИЙ', // ← название репо
+  GITHUB_OWNER: 'ep1ctype',       // ← логин на GitHub
+  GITHUB_REPO:  'podval_Amerika_tournament', // ← название репо
   RESULTS_FILE: 'results.json',     // путь к файлу в репо
-  ADMIN_PASSWORD_HASH: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8' // SHA-256 от 'password'
+  ADMIN_PASSWORD_HASH: '8680a62e6f7b110d9966ed9c5ae0d6ed17a9ab6b170520074f440779b50304ab' // SHA-256 от 'password'
   // Для смены пароля: открой консоль браузера и выполни:
   // crypto.subtle.digest('SHA-256', new TextEncoder().encode('ТВОЙ_ПАРОЛЬ'))
   //   .then(b => console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
