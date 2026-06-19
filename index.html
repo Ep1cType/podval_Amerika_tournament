@@ -1,208 +1,208 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Бильярдный турнир</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бильярдный турнир</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
-  --bg:        #0f1117;
-  --surface:   #161820;
-  --surface2:  #1e2130;
-  --border:    #2a2d3a;
-  --border2:   #3d4260;
-  --text:      #e8e8e8;
-  --muted:     #6b7280;
-  --subtle:    #9ca3af;
-  --gold:      #c9a227;
-  --gold-bg:   #1a1500;
-  --green:     #34d399;
-  --red:       #f87171;
-  --corona:    #c9a227;
-  --corona-bg: #1a1500;
-  --america:   #3b82f6;
-  --america-bg:#0d1a2e;
-}
+    :root {
+      --bg:        #0f1117;
+      --surface:   #161820;
+      --surface2:  #1e2130;
+      --border:    #2a2d3a;
+      --border2:   #3d4260;
+      --text:      #e8e8e8;
+      --muted:     #6b7280;
+      --subtle:    #9ca3af;
+      --gold:      #c9a227;
+      --gold-bg:   #1a1500;
+      --green:     #34d399;
+      --red:       #f87171;
+      --corona:    #c9a227;
+      --corona-bg: #1a1500;
+      --america:   #3b82f6;
+      --america-bg:#0d1a2e;
+    }
 
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
 
-/* ── HEADER ── */
-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 12px 20px;
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  position: sticky; top: 0; z-index: 100;
-}
-.logo { display: flex; align-items: center; gap: 10px; margin-right: auto; }
-.logo-icon { width: 34px; height: 34px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
-.logo-text h1 { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.2; }
-.logo-text p  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+    .logo-icon { width: 34px; height: 34px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .logo-text h1 { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.2; }
+    .logo-text p  { font-size: 11px; color: var(--muted); margin-top: 1px; }
 
-.header-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .header-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
-/* ── BUTTONS ── */
-.btn { padding: 6px 12px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface2); color: #c8cacc; font-size: 12px; cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; line-height: 1; }
-.btn:hover { background: #252840; border-color: var(--border2); color: #fff; }
-.btn:disabled { opacity: .4; cursor: not-allowed; }
-.btn.danger { background: #3a1a1a; border-color: #6b2020; color: var(--red); }
-.btn.danger:hover { background: #4a2020; }
-.import-input { display: none; }
+    /* ── BUTTONS ── */
+    .btn { padding: 6px 12px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface2); color: #c8cacc; font-size: 12px; cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; line-height: 1; }
+    .btn:hover { background: #252840; border-color: var(--border2); color: #fff; }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+    .btn.danger { background: #3a1a1a; border-color: #6b2020; color: var(--red); }
+    .btn.danger:hover { background: #4a2020; }
+    .import-input { display: none; }
 
-/* ── AUTH BADGE ── */
-.auth-badge { display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 7px; border: 1px solid var(--border); font-size: 11px; font-weight: 500; white-space: nowrap; }
-.auth-badge.admin { border-color: #c9a22740; background: var(--gold-bg); color: var(--gold); }
-.auth-badge.viewer { color: var(--muted); }
-.auth-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    /* ── AUTH BADGE ── */
+    .auth-badge { display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 7px; border: 1px solid var(--border); font-size: 11px; font-weight: 500; white-space: nowrap; }
+    .auth-badge.admin { border-color: #c9a22740; background: var(--gold-bg); color: var(--gold); }
+    .auth-badge.viewer { color: var(--muted); }
+    .auth-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
-/* ── INLINE LOGIN ── */
-.login-input { padding: 6px 10px; border-radius: 7px; border: 1px solid var(--border); background: #0f1117; color: var(--text); font-size: 12px; outline: none; transition: border-color .15s; font-family: inherit; }
-.login-input:focus { border-color: var(--gold); }
-.login-error { font-size: 11px; color: var(--red); white-space: nowrap; }
-#loginStepPw, #loginStepToken { display: none; align-items: center; gap: 6px; flex-wrap: wrap; }
+    /* ── INLINE LOGIN ── */
+    .login-input { padding: 6px 10px; border-radius: 7px; border: 1px solid var(--border); background: #0f1117; color: var(--text); font-size: 12px; outline: none; transition: border-color .15s; font-family: inherit; }
+    .login-input:focus { border-color: var(--gold); }
+    .login-error { font-size: 11px; color: var(--red); white-space: nowrap; }
+    #loginStepPw, #loginStepToken { display: none; align-items: center; gap: 6px; flex-wrap: wrap; }
 
-/* ── SYNC ── */
-.sync-status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); white-space: nowrap; }
-.sync-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
-.sync-dot.ok      { background: var(--green); }
-.sync-dot.err     { background: var(--red); }
-.sync-dot.loading { background: var(--gold); animation: pulse 1s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    /* ── SYNC ── */
+    .sync-status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .sync-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+    .sync-dot.ok      { background: var(--green); }
+    .sync-dot.err     { background: var(--red); }
+    .sync-dot.loading { background: var(--gold); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* ── MAIN ── */
-.wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    /* ── MAIN ── */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
 
-/* ── STATS ── */
-.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 18px; }
-.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
-.stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
-.stat-value { font-size: 22px; font-weight: 700; color: #fff; }
-.stat-value.gold { color: var(--gold); }
-.stat-value small { font-size: 13px; color: var(--muted); font-weight: 400; }
+    /* ── STATS ── */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 18px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+    .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
+    .stat-value { font-size: 22px; font-weight: 700; color: #fff; }
+    .stat-value.gold { color: var(--gold); }
+    .stat-value small { font-size: 13px; color: var(--muted); font-weight: 400; }
 
-/* ── DISCIPLINE TABS ── */
-.disc-tabs { display: flex; gap: 0; margin-bottom: 18px; border-radius: 9px; overflow: hidden; border: 1px solid var(--border); width: fit-content; }
-.disc-tab { padding: 8px 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: var(--surface2); color: var(--muted); transition: all .15s; white-space: nowrap; }
-.disc-tab:first-child { border-right: 1px solid var(--border); }
-.disc-tab.active-corona   { background: var(--corona-bg); color: var(--corona); }
-.disc-tab.active-america  { background: var(--america-bg); color: var(--america); }
-.disc-tab.active-combined { background: #1a1a2e; color: #a78bfa; }
+    /* ── DISCIPLINE TABS ── */
+    .disc-tabs { display: flex; gap: 0; margin-bottom: 18px; border-radius: 9px; overflow: hidden; border: 1px solid var(--border); width: fit-content; }
+    .disc-tab { padding: 8px 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: var(--surface2); color: var(--muted); transition: all .15s; white-space: nowrap; }
+    .disc-tab:first-child { border-right: 1px solid var(--border); }
+    .disc-tab.active-corona   { background: var(--corona-bg); color: var(--corona); }
+    .disc-tab.active-america  { background: var(--america-bg); color: var(--america); }
+    .disc-tab.active-combined { background: #1a1a2e; color: #a78bfa; }
 
-/* ── STANDINGS TABLE ── */
-.section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.section-label::after { content:''; flex: 1; height: 1px; background: var(--border); }
+    /* ── STANDINGS TABLE ── */
+    .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .section-label::after { content:''; flex: 1; height: 1px; background: var(--border); }
 
-.sort-pills { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
-.sort-pill { padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--subtle); font-size: 11px; cursor: pointer; transition: all .12s; }
-.sort-pill:hover { border-color: var(--border2); color: var(--text); }
-.sort-pill.active { border-color: #c9a22750; color: var(--gold); background: var(--gold-bg); }
+    .sort-pills { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+    .sort-pill { padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--subtle); font-size: 11px; cursor: pointer; transition: all .12s; }
+    .sort-pill:hover { border-color: var(--border2); color: var(--text); }
+    .sort-pill.active { border-color: #c9a22750; color: var(--gold); background: var(--gold-bg); }
 
-.table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-table { width: 100%; border-collapse: collapse; min-width: 540px; }
-thead th { background: #1a1d2e; color: var(--subtle); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
-thead th:hover { color: var(--text); }
-thead th.c { text-align: center; }
-tbody tr { border-bottom: 1px solid #1a1c28; transition: background .1s; }
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: #1c1f2e; }
-tbody td { padding: 10px 12px; vertical-align: middle; }
-tbody td.c { text-align: center; }
+    .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; min-width: 540px; }
+    thead th { background: #1a1d2e; color: var(--subtle); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
+    thead th:hover { color: var(--text); }
+    thead th.c { text-align: center; }
+    tbody tr { border-bottom: 1px solid #1a1c28; transition: background .1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #1c1f2e; }
+    tbody td { padding: 10px 12px; vertical-align: middle; }
+    tbody td.c { text-align: center; }
 
-.rank { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 20px; }
-.rank.r1 { color: var(--gold); }
-.rank.r2 { color: var(--subtle); }
-.rank.r3 { color: #cd7f32; }
-.pname { font-weight: 500; white-space: nowrap; }
-.pts-main { font-size: 17px; font-weight: 700; color: var(--gold); }
-.sub-pts { display: flex; flex-direction: column; gap: 1px; }
-.sub-pt  { font-size: 10px; display: flex; align-items: center; gap: 3px; }
-.disc-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-.diff-pos { color: var(--green); font-weight: 600; }
-.diff-neg { color: var(--red); font-weight: 600; }
-.diff-zero { color: var(--muted); }
-.pct-wrap { display: inline-flex; align-items: center; gap: 5px; }
-.pct-bar  { width: 40px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.pct-fill { height: 100%; background: var(--gold); border-radius: 2px; }
-.wdl { display: flex; gap: 3px; justify-content: center; }
-.wdl span { font-size: 11px; min-width: 16px; text-align: center; }
-.duel-marker { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #a78bfa; margin-left: 3px; vertical-align: middle; title: 'Дуэль'; }
+    .rank { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 20px; }
+    .rank.r1 { color: var(--gold); }
+    .rank.r2 { color: var(--subtle); }
+    .rank.r3 { color: #cd7f32; }
+    .pname { font-weight: 500; white-space: nowrap; }
+    .pts-main { font-size: 17px; font-weight: 700; color: var(--gold); }
+    .sub-pts { display: flex; flex-direction: column; gap: 1px; }
+    .sub-pt  { font-size: 10px; display: flex; align-items: center; gap: 3px; }
+    .disc-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .diff-pos { color: var(--green); font-weight: 600; }
+    .diff-neg { color: var(--red); font-weight: 600; }
+    .diff-zero { color: var(--muted); }
+    .pct-wrap { display: inline-flex; align-items: center; gap: 5px; }
+    .pct-bar  { width: 40px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .pct-fill { height: 100%; background: var(--gold); border-radius: 2px; }
+    .wdl { display: flex; gap: 3px; justify-content: center; }
+    .wdl span { font-size: 11px; min-width: 16px; text-align: center; }
+    .duel-marker { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #a78bfa; margin-left: 3px; vertical-align: middle; title: 'Дуэль'; }
 
-/* ── MATCHES SECTION ── */
-.matches-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.matches-title { font-size: 14px; font-weight: 600; }
+    /* ── MATCHES SECTION ── */
+    .matches-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+    .matches-title { font-size: 14px; font-weight: 600; }
 
-.disc-switch { display: flex; gap: 0; border-radius: 7px; overflow: hidden; border: 1px solid var(--border); }
-.disc-sw-btn { padding: 5px 14px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: var(--surface2); color: var(--muted); transition: all .15s; }
-.disc-sw-btn:first-child { border-right: 1px solid var(--border); }
-.disc-sw-btn.on-corona   { background: var(--corona-bg); color: var(--corona); }
-.disc-sw-btn.on-america  { background: var(--america-bg); color: var(--america); }
+    .disc-switch { display: flex; gap: 0; border-radius: 7px; overflow: hidden; border: 1px solid var(--border); }
+    .disc-sw-btn { padding: 5px 14px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: var(--surface2); color: var(--muted); transition: all .15s; }
+    .disc-sw-btn:first-child { border-right: 1px solid var(--border); }
+    .disc-sw-btn.on-corona   { background: var(--corona-bg); color: var(--corona); }
+    .disc-sw-btn.on-america  { background: var(--america-bg); color: var(--america); }
 
-.round-tabs { display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 12px; }
-.round-tab { padding: 4px 10px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface2); color: var(--subtle); font-size: 11px; font-weight: 500; cursor: pointer; transition: all .1s; }
-.round-tab:hover { border-color: var(--border2); color: var(--text); }
-.round-tab.active-corona   { background: var(--corona-bg); border-color: var(--corona); color: var(--corona); font-weight: 700; }
-.round-tab.active-america  { background: var(--america-bg); border-color: var(--america); color: var(--america); font-weight: 700; }
-.round-tab.done { border-color: #34d39940; color: var(--green); }
-.round-tab.active-corona.done  { background: var(--corona-bg); border-color: var(--corona); color: var(--corona); }
-.round-tab.active-america.done { background: var(--america-bg); border-color: var(--america); color: var(--america); }
+    .round-tabs { display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 12px; }
+    .round-tab { padding: 4px 10px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface2); color: var(--subtle); font-size: 11px; font-weight: 500; cursor: pointer; transition: all .1s; }
+    .round-tab:hover { border-color: var(--border2); color: var(--text); }
+    .round-tab.active-corona   { background: var(--corona-bg); border-color: var(--corona); color: var(--corona); font-weight: 700; }
+    .round-tab.active-america  { background: var(--america-bg); border-color: var(--america); color: var(--america); font-weight: 700; }
+    .round-tab.done { border-color: #34d39940; color: var(--green); }
+    .round-tab.active-corona.done  { background: var(--corona-bg); border-color: var(--corona); color: var(--corona); }
+    .round-tab.active-america.done { background: var(--america-bg); border-color: var(--america); color: var(--america); }
 
-.matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 8px; }
+    .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 8px; }
 
-.match-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 12px 14px; }
-.match-card.done-corona   { border-color: #c9a22730; background: #1a1700; }
-.match-card.done-america  { border-color: #3b82f630; background: #0d1525; }
-.match-card.duel-highlight { position: relative; }
-.match-card.duel-highlight::before { content:''; position:absolute; inset:0; border-radius:9px; border:1px solid #a78bfa40; pointer-events:none; }
+    .match-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 12px 14px; }
+    .match-card.done-corona   { border-color: #c9a22730; background: #1a1700; }
+    .match-card.done-america  { border-color: #3b82f630; background: #0d1525; }
+    .match-card.duel-highlight { position: relative; }
+    .match-card.duel-highlight::before { content:''; position:absolute; inset:0; border-radius:9px; border:1px solid #a78bfa40; pointer-events:none; }
 
-.match-players { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-.mp { font-size: 12px; font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mp.right { text-align: right; }
-.mvs { font-size: 10px; color: var(--muted); font-weight: 600; flex-shrink: 0; }
+    .match-players { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .mp { font-size: 12px; font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mp.right { text-align: right; }
+    .mvs { font-size: 10px; color: var(--muted); font-weight: 600; flex-shrink: 0; }
 
-.match-score { display: flex; align-items: center; gap: 6px; }
-.score-inp { width: 42px; padding: 4px 5px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 14px; font-weight: 600; text-align: center; outline: none; transition: border-color .15s; -moz-appearance: textfield; }
-.score-inp::-webkit-inner-spin-button, .score-inp::-webkit-outer-spin-button { -webkit-appearance: none; }
-.score-inp:focus { border-color: var(--gold); }
-.score-sep { font-size: 13px; color: var(--muted); font-weight: 600; flex-shrink: 0; }
-.score-ro { width: 42px; text-align: center; font-size: 14px; font-weight: 600; }
-.score-ro.winner { color: var(--gold); }
-.match-save-btn { margin-left: auto; padding: 4px 9px; border-radius: 5px; border: 1px solid var(--border); background: transparent; color: var(--subtle); font-size: 11px; cursor: pointer; transition: all .15s; white-space: nowrap; }
-.match-save-btn:hover { border-color: var(--gold); color: var(--gold); }
-.match-done-lbl { font-size: 10px; color: var(--green); margin-left: auto; font-weight: 500; white-space: nowrap; }
-.match-edit-btn { padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 10px; cursor: pointer; margin-left: 3px; }
-.match-edit-btn:hover { color: var(--gold); border-color: var(--gold); }
-.match-not-played { font-size: 10px; color: var(--muted); margin-left: auto; }
+    .match-score { display: flex; align-items: center; gap: 6px; }
+    .score-inp { width: 42px; padding: 4px 5px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 14px; font-weight: 600; text-align: center; outline: none; transition: border-color .15s; -moz-appearance: textfield; }
+    .score-inp::-webkit-inner-spin-button, .score-inp::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .score-inp:focus { border-color: var(--gold); }
+    .score-sep { font-size: 13px; color: var(--muted); font-weight: 600; flex-shrink: 0; }
+    .score-ro { width: 42px; text-align: center; font-size: 14px; font-weight: 600; }
+    .score-ro.winner { color: var(--gold); }
+    .match-save-btn { margin-left: auto; padding: 4px 9px; border-radius: 5px; border: 1px solid var(--border); background: transparent; color: var(--subtle); font-size: 11px; cursor: pointer; transition: all .15s; white-space: nowrap; }
+    .match-save-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .match-done-lbl { font-size: 10px; color: var(--green); margin-left: auto; font-weight: 500; white-space: nowrap; }
+    .match-edit-btn { padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 10px; cursor: pointer; margin-left: 3px; }
+    .match-edit-btn:hover { color: var(--gold); border-color: var(--gold); }
+    .match-not-played { font-size: 10px; color: var(--muted); margin-left: auto; }
 
-/* ── TOAST ── */
-.toast { position: fixed; bottom: 20px; right: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 9px 16px; border-radius: 8px; font-size: 12px; font-weight: 500; opacity: 0; transition: opacity .3s; z-index: 999; pointer-events: none; max-width: 300px; }
-.toast.show { opacity: 1; }
-.toast.ok  { border-color: #34d39940; color: var(--green); }
-.toast.err { border-color: #f8717140; color: var(--red); }
+    /* ── TOAST ── */
+    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 9px 16px; border-radius: 8px; font-size: 12px; font-weight: 500; opacity: 0; transition: opacity .3s; z-index: 999; pointer-events: none; max-width: 300px; }
+    .toast.show { opacity: 1; }
+    .toast.ok  { border-color: #34d39940; color: var(--green); }
+    .toast.err { border-color: #f8717140; color: var(--red); }
 
-/* ── MOBILE ── */
-@media (max-width: 600px) {
-  .stats-row { grid-template-columns: repeat(2,1fr); gap: 8px; }
-  .stat-card { padding: 11px 13px; }
-  .stat-value { font-size: 18px; }
-  header { padding: 10px 12px; gap: 8px; }
-  .logo-text p { display: none; }
-  .wrap { padding: 10px; }
-  .matches-grid { grid-template-columns: 1fr; }
-  .auth-badge span { display: none; }
-  .sync-status span { display: none; }
-  /* keep table scrollable */
-  table { min-width: 480px; }
-  /* hide sub-points column on mobile to save space */
-  .col-subpts { display: none; }
-}
-@media (max-width: 380px) {
-  .disc-tabs { width: 100%; }
-  .disc-tab  { flex: 1; text-align: center; padding: 7px 8px; font-size: 12px; }
-}
-</style>
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: repeat(2,1fr); gap: 8px; }
+      .stat-card { padding: 11px 13px; }
+      .stat-value { font-size: 18px; }
+      header { padding: 10px 12px; gap: 8px; }
+      .logo-text p { display: none; }
+      .wrap { padding: 10px; }
+      .matches-grid { grid-template-columns: 1fr; }
+      .auth-badge span { display: none; }
+      .sync-status span { display: none; }
+      /* keep table scrollable */
+      table { min-width: 480px; }
+      /* hide sub-points column on mobile to save space */
+      .col-subpts { display: none; }
+    }
+    @media (max-width: 380px) {
+      .disc-tabs { width: 100%; }
+      .disc-tab  { flex: 1; text-align: center; padding: 7px 8px; font-size: 12px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -299,18 +299,18 @@ tbody td.c { text-align: center; }
   <div class="table-wrap">
     <table>
       <thead>
-        <tr>
-          <th style="width:28px">#</th>
-          <th onclick="setSort('name')">Игрок</th>
-          <th class="c" onclick="setSort('games')">Игр</th>
-          <th class="c" onclick="setSort('wins')" style="color:#34d39980">В</th>
-          <th class="c" onclick="setSort('draws')">Н</th>
-          <th class="c" onclick="setSort('losses')" style="color:#f8717180">П</th>
-          <th class="c" onclick="setSort('pts')">Очки</th>
-          <th class="c col-subpts" id="thSubPts" onclick="setSort('pts')">К / А</th>
-          <th class="c" onclick="setSort('diff')">Разница</th>
-          <th class="c">% побед</th>
-        </tr>
+      <tr>
+        <th style="width:28px">#</th>
+        <th onclick="setSort('name')">Игрок</th>
+        <th class="c" onclick="setSort('games')">Игр</th>
+        <th class="c" onclick="setSort('wins')" style="color:#34d39980">В</th>
+        <th class="c" onclick="setSort('draws')">Н</th>
+        <th class="c" onclick="setSort('losses')" style="color:#f8717180">П</th>
+        <th class="c" onclick="setSort('pts')">Очки</th>
+        <th class="c col-subpts" id="thSubPts" onclick="setSort('pts')">К / А</th>
+        <th class="c" onclick="setSort('diff')">Разница</th>
+        <th class="c">% побед</th>
+      </tr>
       </thead>
       <tbody id="standingsBody"></tbody>
     </table>
@@ -498,8 +498,8 @@ function setAdminMode(on) {
   document.getElementById('adminActions').style.display  = on?'flex':'none';
   badge.className = on?'auth-badge admin':'auth-badge viewer';
   badge.innerHTML = on
-    ? '<div class="auth-dot"></div><span>Администратор</span>'
-    : '<div class="auth-dot"></div><span>Просмотр</span>';
+          ? '<div class="auth-dot"></div><span>Администратор</span>'
+          : '<div class="auth-dot"></div><span>Просмотр</span>';
 }
 
 // ══════════════════════════════════════
@@ -533,90 +533,100 @@ function calcStats(disc) {
 // Находит все пары (игрок A, игрок B) где есть ничья в дуэли (корона и америка):
 // A выиграл у B в одной дисциплине, B выиграл у A в другой.
 // Возвращает Set строк вида "ИмяA|ИмяB" (упорядоченных).
-function findDuelDrawPairs() {
-  const pairs = new Set();
-  // Для каждой пары игроков ищем их встречи в обеих дисциплинах
-  for (let i=0;i<PLAYERS.length;i++) {
-    for (let j=i+1;j<PLAYERS.length;j++) {
-      const pA=PLAYERS[i], pB=PLAYERS[j];
-      // найти матч между ними в каждой дисциплине
-      let coronaWinner=null, americaWinner=null;
-      let cDiff=0, aDiff=0; // разница партий с точки зрения pA
-      DISCS.forEach(d => {
-        SCHEDULE.forEach((round,ri) => {
-          round.forEach((match,mi) => {
-            const [m0,m1]=match;
-            if (!((m0===pA&&m1===pB)||(m0===pB&&m1===pA))) return;
-            const res=getRes(d,ri,mi);
-            if (!res.done) return;
-            const s0=+res.s1, s1=+res.s2; // s0=счёт m0, s1=счёт m1
-            // нормализуем к точке зрения pA
-            const sA = m0===pA ? s0 : s1;
-            const sB = m0===pA ? s1 : s0;
-            if (d==='corona') {
-              coronaWinner = sA>sB ? pA : sB>sA ? pB : null;
-              cDiff = sA-sB;
-            } else {
-              americaWinner = sA>sB ? pA : sB>sA ? pB : null;
-              aDiff = sA-sB;
-            }
-          });
-        });
+// Очки игрока pA в личных встречах с pB (корона + америка)
+function h2hPoints(pA, pB) {
+  let pts = 0;
+  DISCS.forEach(d => {
+    SCHEDULE.forEach((round,ri) => {
+      round.forEach((match,mi) => {
+        const [m0,m1] = match;
+        if (!((m0===pA&&m1===pB)||(m0===pB&&m1===pA))) return;
+        const res = getRes(d,ri,mi);
+        if (!res.done) return;
+        const sA = m0===pA ? +res.s1 : +res.s2;
+        const sB = m0===pA ? +res.s2 : +res.s1;
+        if (sA > sB) pts += 3;
+        else if (sA === sB) pts += 1;
       });
-      // Дуэльная ничья: оба результата есть, и победители разные (не null и не одинаковые)
-      if (coronaWinner && americaWinner && coronaWinner!==americaWinner) {
-        pairs.add([pA,pB].sort().join('|'));
-      }
-    }
-  }
-  return pairs;
+    });
+  });
+  return pts;
 }
 
-// Разница партий в дуэли между A и B (с т.з. pA)
-function duelDiff(pA, pB) {
+// Разница партий в личных встречах A vs B (с т.з. pA, по всем дисциплинам)
+function h2hDiff(pA, pB) {
   let diff = 0;
   DISCS.forEach(d => {
     SCHEDULE.forEach((round,ri) => {
       round.forEach((match,mi) => {
-        const [m0,m1]=match;
+        const [m0,m1] = match;
         if (!((m0===pA&&m1===pB)||(m0===pB&&m1===pA))) return;
-        const res=getRes(d,ri,mi);
+        const res = getRes(d,ri,mi);
         if (!res.done) return;
         const sA = m0===pA ? +res.s1 : +res.s2;
         const sB = m0===pA ? +res.s2 : +res.s1;
-        diff += (sA-sB);
+        diff += (sA - sB);
       });
     });
   });
   return diff;
 }
 
-function sortedStandings(data, duelPairs) {
-  // Сортировка: основная по очкам/разнице,
-  // но при дуэльной ничье — сравниваем разницу партий в этих двух встречах
+// Есть ли хотя бы один сыгранный матч между A и B
+function h2hPlayed(pA, pB) {
+  return DISCS.some(d =>
+          SCHEDULE.some((round,ri) =>
+                  round.some((match,mi) => {
+                    const [m0,m1] = match;
+                    if (!((m0===pA&&m1===pB)||(m0===pB&&m1===pA))) return false;
+                    return getRes(d,ri,mi).done;
+                  })
+          )
+  );
+}
+
+// Игроки у которых есть личная встреча с неравными очками — помечаем для UI
+function findH2HAdvantage() {
+  const marked = new Set();
+  for (let i=0;i<PLAYERS.length;i++) {
+    for (let j=i+1;j<PLAYERS.length;j++) {
+      const pA=PLAYERS[i], pB=PLAYERS[j];
+      if (!h2hPlayed(pA,pB)) continue;
+      const ptsA = h2hPoints(pA,pB);
+      const ptsB = h2hPoints(pB,pA);
+      if (ptsA !== ptsB) {
+        marked.add(pA); marked.add(pB);
+      }
+    }
+  }
+  return marked;
+}
+
+function sortedStandings(data) {
   return [...data].sort((a,b) => {
     if (sortBy==='name')   return a.name.localeCompare(b.name,'ru');
-    if (sortBy==='wins')   return b.wins-a.wins   || b.pts-a.pts;
+    if (sortBy==='wins')   return b.wins-a.wins || b.pts-a.pts;
     if (sortBy==='draws')  return b.draws-a.draws;
     if (sortBy==='losses') return a.losses-b.losses;
     if (sortBy==='games')  return b.games-a.games;
 
-    // Для pts и diff — учитываем дуэль
-    if (sortBy==='pts' || sortBy==='diff') {
-      const ptsDiff = b.pts - a.pts;
-      if (ptsDiff !== 0) return ptsDiff;
-      // Одинаковые очки — проверяем дуэль
-      const pairKey = [a.name,b.name].sort().join('|');
-      if (duelPairs.has(pairKey)) {
-        const diffA = duelDiff(a.name, b.name);
-        if (diffA !== 0) return -diffA; // пользу a.name если diffA>0
-      }
-      // Общая разница партий
-      const gDiff = (b.scored-b.conceded)-(a.scored-a.conceded);
-      if (gDiff !== 0) return gDiff;
-      return b.wins-a.wins;
+    // Основная сортировка: очки
+    const ptsDiff = b.pts - a.pts;
+    if (ptsDiff !== 0) return ptsDiff;
+
+    // Равные очки → 1) очки в личных встречах
+    if (h2hPlayed(a.name, b.name)) {
+      const h2hA = h2hPoints(a.name, b.name);
+      const h2hB = h2hPoints(b.name, a.name);
+      if (h2hA !== h2hB) return h2hB - h2hA; // больше очков в личке — выше
     }
-    return (b.scored-b.conceded)-(a.scored-a.conceded) || b.pts-a.pts;
+
+    // 2) Разница партий во всех матчах
+    const gDiff = (b.scored-b.conceded) - (a.scored-a.conceded);
+    if (gDiff !== 0) return gDiff;
+
+    // 3) Количество побед
+    return b.wins - a.wins;
   });
 }
 
@@ -644,8 +654,8 @@ function setSort(by) {
 
 function renderStandings() {
   const data = calcStats(tableDisc);
-  const duelPairs = findDuelDrawPairs();
-  const sorted = sortedStandings(data, duelPairs);
+  const sorted = sortedStandings(data);
+  const h2hMarked = findH2HAdvantage();
 
   // Sub-pts (только для combined)
   const cData = tableDisc==='combined' ? calcStats('corona')  : null;
@@ -659,8 +669,8 @@ function renderStandings() {
   document.getElementById('s-played').innerHTML = totalDone + ' <small>/ 182</small>';
   const leader = sorted.find(p=>p.games>0);
   document.getElementById('s-leader').innerHTML = leader
-    ? leader.name.split(' ')[0] + ' <small>' + leader.pts + ' оч.</small>'
-    : '—';
+          ? leader.name.split(' ')[0] + ' <small>' + leader.pts + ' оч.</small>'
+          : '—';
 
   document.getElementById('standingsBody').innerHTML = sorted.map((p,i) => {
     const diff  = p.scored-p.conceded;
@@ -669,25 +679,25 @@ function renderStandings() {
     const pct   = p.games>0 ? Math.round(p.wins/p.games*100) : 0;
     const rnk   = i===0?'r1':i===1?'r2':i===2?'r3':'';
 
-    // Пометить если у этого игрока есть дуэльные ничьи
-    const hasDuel = [...duelPairs].some(pk => pk.includes(p.name));
+    // Пометить если у этого игрока есть личное преимущество над кем-то с теми же очками
+    const hasH2H = h2hMarked.has(p.name);
 
     const subPts = tableDisc==='combined' && cMap
-      ? '<td class="c col-subpts"><span style="color:var(--corona);font-size:11px">' + (cMap[p.name]?.pts||0) + '</span> / <span style="color:var(--america);font-size:11px">' + (aMap[p.name]?.pts||0) + '</span></td>'
-      : '<td class="c col-subpts" style="display:none"></td>';
+            ? '<td class="c col-subpts"><span style="color:var(--corona);font-size:11px">' + (cMap[p.name]?.pts||0) + '</span> / <span style="color:var(--america);font-size:11px">' + (aMap[p.name]?.pts||0) + '</span></td>'
+            : '<td class="c col-subpts" style="display:none"></td>';
 
     return '<tr>' +
-      '<td class="rank '+rnk+'">' + (i+1) + '</td>' +
-      '<td class="pname">' + p.name + (hasDuel?'<span class="duel-marker" title="Есть дуэльная ничья"></span>':'') + '</td>' +
-      '<td class="c" style="color:var(--subtle)">' + p.games + '</td>' +
-      '<td class="c" style="color:var(--green)">' + p.wins + '</td>' +
-      '<td class="c" style="color:var(--subtle)">' + p.draws + '</td>' +
-      '<td class="c" style="color:var(--red)">' + p.losses + '</td>' +
-      '<td class="c pts-main">' + p.pts + '</td>' +
-      subPts +
-      '<td class="c ' + dCls + '">' + (p.games>0?dStr:'—') + '</td>' +
-      '<td class="c"><div class="pct-wrap"><div class="pct-bar"><div class="pct-fill" style="width:'+pct+'%"></div></div><span style="color:var(--subtle);font-size:11px;min-width:28px">' + (p.games>0?pct+'%':'—') + '</span></div></td>' +
-      '</tr>';
+            '<td class="rank '+rnk+'">' + (i+1) + '</td>' +
+            '<td class="pname">' + p.name + (hasH2H?'<span class="duel-marker" title="Учтены личные встречи"></span>':'') + '</td>' +
+            '<td class="c" style="color:var(--subtle)">' + p.games + '</td>' +
+            '<td class="c" style="color:var(--green)">' + p.wins + '</td>' +
+            '<td class="c" style="color:var(--subtle)">' + p.draws + '</td>' +
+            '<td class="c" style="color:var(--red)">' + p.losses + '</td>' +
+            '<td class="c pts-main">' + p.pts + '</td>' +
+            subPts +
+            '<td class="c ' + dCls + '">' + (p.games>0?dStr:'—') + '</td>' +
+            '<td class="c"><div class="pct-wrap"><div class="pct-bar"><div class="pct-fill" style="width:'+pct+'%"></div></div><span style="color:var(--subtle);font-size:11px;min-width:28px">' + (p.games>0?pct+'%':'—') + '</span></div></td>' +
+            '</tr>';
   }).join('');
 }
 
@@ -715,15 +725,16 @@ function renderRoundTabs() {
 
 function selectRound(ri) { curRound=ri; renderRoundTabs(); renderMatches(); }
 
-// Найти дуэльные матчи в текущем туре (оба игрока встречаются в обеих дисциплинах)
+// Матчи в текущем туре где между игроками есть расхождение в личных очках
 function getDuelMatchPairs(disc, ri) {
-  const duelPairs = findDuelDrawPairs();
-  const matchPairs = new Set();
+  const marked = new Set();
   SCHEDULE[ri].forEach(match => {
-    const key = match.slice().sort().join('|');
-    if (duelPairs.has(key)) matchPairs.add(key);
+    if (!h2hPlayed(match[0], match[1])) return;
+    const ptsA = h2hPoints(match[0], match[1]);
+    const ptsB = h2hPoints(match[1], match[0]);
+    if (ptsA !== ptsB) marked.add(match.slice().sort().join('|'));
   });
-  return matchPairs;
+  return marked;
 }
 
 function renderMatches() {
@@ -755,9 +766,9 @@ function renderMatches() {
     }
 
     return '<div class="match-card '+doneClass+' '+duelClass+'">' +
-      '<div class="match-players"><span class="mp">'+match[0]+'</span><span class="mvs">vs</span><span class="mp right">'+match[1]+'</span></div>' +
-      '<div class="match-score">' + scoreHtml + actionHtml + '</div>' +
-      '</div>';
+            '<div class="match-players"><span class="mp">'+match[0]+'</span><span class="mvs">vs</span><span class="mp right">'+match[1]+'</span></div>' +
+            '<div class="match-score">' + scoreHtml + actionHtml + '</div>' +
+            '</div>';
   }).join('');
 }
 
@@ -795,7 +806,7 @@ function exportExcel() {
   const wb = XLSX.utils.book_new();
 
   // Общая таблица
-  const combined = sortedStandings(calcStats('combined'), findDuelDrawPairs());
+  const combined = sortedStandings(calcStats('combined'));
   const cStats   = Object.fromEntries(calcStats('corona').map(p=>[p.name,p]));
   const aStats   = Object.fromEntries(calcStats('america').map(p=>[p.name,p]));
   const sRows = [['#','Игрок','Игр','В','Н','П','Очки','Очки К','Очки А','Разница','% Побед']];
