@@ -16,7 +16,7 @@
   },
   "america_11_6": {
     "s1": 0,
-    "s2": 5,
+    "s2": 8,
     "done": true
   },
   "america_6_0": {
@@ -71,6 +71,186 @@
   },
   "america_10_0": {
     "s1": 8,
+    "s2": 4,
+    "done": true
+  },
+  "america_3_3": {
+    "s1": 8,
+    "s2": 5,
+    "done": true
+  },
+  "america_10_3": {
+    "s1": 7,
+    "s2": 7,
+    "done": true
+  },
+  "america_7_3": {
+    "s1": 8,
+    "s2": 3,
+    "done": true
+  },
+  "america_11_1": {
+    "s1": 7,
+    "s2": 7,
+    "done": true
+  },
+  "america_3_2": {
+    "s1": 8,
+    "s2": 5,
+    "done": true
+  },
+  "america_7_2": {
+    "s1": 3,
+    "s2": 8,
+    "done": true
+  },
+  "america_12_3": {
+    "s1": 8,
+    "s2": 6,
+    "done": true
+  },
+  "america_1_6": {
+    "s1": 3,
+    "s2": 8,
+    "done": true
+  },
+  "america_12_4": {
+    "s1": 5,
+    "s2": 8,
+    "done": true
+  },
+  "america_11_5": {
+    "s1": 3,
+    "s2": 8,
+    "done": true
+  },
+  "america_0_1": {
+    "s1": 8,
+    "s2": 2,
+    "done": true
+  },
+  "america_5_2": {
+    "s1": 1,
+    "s2": 8,
+    "done": true
+  },
+  "america_1_5": {
+    "s1": 8,
+    "s2": 2,
+    "done": true
+  },
+  "america_8_4": {
+    "s1": 8,
+    "s2": 6,
+    "done": true
+  },
+  "america_10_4": {
+    "s1": 4,
+    "s2": 8,
+    "done": true
+  },
+  "america_10_6": {
+    "s1": 4,
+    "s2": 8,
+    "done": true
+  },
+  "america_6_3": {
+    "s1": 5,
+    "s2": 8,
+    "done": true
+  },
+  "america_5_6": {
+    "s1": 8,
+    "s2": 1,
+    "done": true
+  },
+  "america_1_0": {
+    "s1": 7,
+    "s2": 7,
+    "done": true
+  },
+  "america_2_2": {
+    "s1": 8,
+    "s2": 4,
+    "done": true
+  },
+  "america_8_5": {
+    "s1": 8,
+    "s2": 6,
+    "done": true
+  },
+  "america_10_1": {
+    "s1": 8,
+    "s2": 1,
+    "done": true
+  },
+  "america_11_4": {
+    "s1": 8,
+    "s2": 1,
+    "done": true
+  },
+  "corona_8_1": {
+    "s1": 5,
+    "s2": 1,
+    "done": true
+  },
+  "america_6_1": {
+    "s1": 1,
+    "s2": 8,
+    "done": true
+  },
+  "corona_3_2": {
+    "s1": 5,
+    "s2": 3,
+    "done": true
+  },
+  "america_2_5": {
+    "s1": 1,
+    "s2": 8,
+    "done": true
+  },
+  "america_12_5": {
+    "s1": 8,
+    "s2": 2,
+    "done": true
+  },
+  "america_0_3": {
+    "s1": 0,
+    "s2": 8,
+    "done": true
+  },
+  "america_8_3": {
+    "s1": 7,
+    "s2": 7,
+    "done": true
+  },
+  "america_5_1": {
+    "s1": 8,
+    "s2": 4,
+    "done": true
+  },
+  "america_12_2": {
+    "s1": 5,
+    "s2": 8,
+    "done": true
+  },
+  "corona_12_5": {
+    "s1": 5,
+    "s2": 1,
+    "done": true
+  },
+  "america_3_4": {
+    "s1": 5,
+    "s2": 8,
+    "done": true
+  },
+  "corona_1_5": {
+    "s1": 5,
+    "s2": 2,
+    "done": true
+  },
+  "corona_12_3": {
+    "s1": 4,
     "s2": 4,
     "done": true
   }
